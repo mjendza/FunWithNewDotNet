@@ -1,0 +1,42 @@
+name: Build
+env:
+  OUTPUT_PATH: ${{ github.workspace }}/.output
+  DOTNET_VERSION: "5.0.x"
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+
+      - name: dotnet tools run
+        run: |
+          dotnet tool restore
+          dotnet format --check
+
+      - name: Setup Dotnet ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: dotnet build
+        shell: bash
+        run: |
+          dotnet build --configuration Release
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build  --logger "trx;LogFileName=test-results.trx"
+
+      - name: Publish test results
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Tests Results
+          reporter: dotnet-trx
+          path: '**/test-results.trx'
+          fail-on-error: 'false'       
