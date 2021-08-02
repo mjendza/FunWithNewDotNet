@@ -6,18 +6,6 @@ env:
 on: [push]
 
 jobs:
-  vulnerability-scan:
-    runs-on: ubuntu-latest
-    name: scan-vulnerabilities
-    container: mcr.microsoft.com/dotnet/core/sdk:3.1-bionic
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Scan for Vulnerabilities
-      run: |
-        dotnet tool restore
-        dotnet restore
-
   build:
     runs-on: ubuntu-latest
     name: build
@@ -40,23 +28,4 @@ jobs:
         shell: bash
         run: |
           dotnet build --configuration Release
-
-  publish:
-    needs: [vulnerability-scan, build]
-    runs-on: ubuntu-latest
-    name: publish nuget
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-
-    - name: Setup Dotnet
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: Dotnet build
-      shell: bash
-      run: |
-        dotnet build 
 
