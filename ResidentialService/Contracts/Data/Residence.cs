@@ -24,11 +24,11 @@ namespace ResidentialService.Contracts
         public int Baths { get; }
 
         public int Rooms => Beds + Baths;
-    }
+}
 
-    public record ResidenceReportByMaxSqFt
-    {
+public record ResidenceReportByMaxSqFt
+{
         public string City { get; set; }
-        public int MaxSqFt { get; set; }
+public int MaxSqFt { get; set; }
     }
 }

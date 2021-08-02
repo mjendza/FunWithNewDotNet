@@ -21,15 +21,15 @@ namespace ResidentialService.UnitTests
             };
             csvRepositoryMock.Setup(x => x.GetAll()).ReturnsAsync(data);
             var sut = new ResidentialService.ResidenceService(csvRepositoryMock.Object);
-            
+
             //WHEN
             var result = await sut.GetResidenceReportByMaxSqFt();
-            
+
             //THEN
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(200, result.First().MaxSqFt);
         }
-        
+
         [TestMethod]
         public async Task Check_GetResidenceReportByMaxSqFt_Advances()
         {
@@ -42,10 +42,10 @@ namespace ResidentialService.UnitTests
             };
             csvRepositoryMock.Setup(x => x.GetAll()).ReturnsAsync(data);
             var sut = new ResidentialService.ResidenceService(csvRepositoryMock.Object);
-            
+
             //WHEN
             var result = await sut.GetResidenceReportByMaxSqFt();
-            
+
             //THEN
             Assert.AreEqual(2, result.Count);
             Assert.AreEqual(200, result.First().MaxSqFt);

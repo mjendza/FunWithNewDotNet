@@ -5,9 +5,9 @@ using ResidentialService.Contracts;
 namespace ResidentialService
 {
     public class ResidenceCsvRepository : IResidenceRepository
-    { 
+    {
         private readonly string _endpoint;
-        
+
         public ResidenceCsvRepository(string endpoint)
         {
             _endpoint = endpoint;
